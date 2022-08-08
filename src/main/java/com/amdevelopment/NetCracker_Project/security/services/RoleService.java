@@ -1,13 +1,15 @@
-package com.amdevelopment.NetCracker_Project.services;
+package com.amdevelopment.NetCracker_Project.security.services;
 
 import com.amdevelopment.NetCracker_Project.config.exceptions.BadRequestException;
 import com.amdevelopment.NetCracker_Project.config.exceptions.DataBaseException;
 import com.amdevelopment.NetCracker_Project.config.exceptions.NotFoundException;
-import com.amdevelopment.NetCracker_Project.models.Role;
-import com.amdevelopment.NetCracker_Project.repositories.RoleRepository;
+import com.amdevelopment.NetCracker_Project.security.models.Role;
+import com.amdevelopment.NetCracker_Project.security.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,6 +31,10 @@ public class RoleService {
             throw new BadRequestException("Role id cannot be 0 or negative.");
         }
         return roleRepository.getRoleById(id);
+    }
+
+    public Optional<Role> getRoleByName(String name) {
+        return roleRepository.findRoleByName(name);
     }
 
     public void insertNewRole(String name) {

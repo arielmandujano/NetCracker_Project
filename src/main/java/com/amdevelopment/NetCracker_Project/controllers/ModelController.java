@@ -5,6 +5,7 @@ import com.amdevelopment.NetCracker_Project.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,25 +22,28 @@ public class ModelController {
     }
 
     @GetMapping("/getModelById")
+    @PreAuthorize("hasAuthority('Admin')")
     public Model getModelId(@RequestParam Integer id) {
         return modelService.getModelById(id);
     }
 
     @GetMapping("/getModelsFiltered")
-    public Iterable<Model> getModelsFiltered(@RequestParam(required = false) String brand, @RequestParam(required = false) Integer year, @RequestParam(required = false) String type) {
-        return modelService.getModelsFiltered(brand, year, type);
+    public Iterable<Model> getModelsFiltered(@RequestParam(required = false) String brand, @RequestParam(required = false) Integer year, @RequestParam(required = false) String type, @RequestParam(required = false) String model, @RequestParam(required = false) String color) {
+        return modelService.getModelsFiltered(brand, year, type, model, color);
     }
 
     @PostMapping("/saveNewModel")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity saveNewModel(@RequestParam String name, @RequestParam Integer year, @RequestParam String brand, @RequestParam String color, @RequestParam String type, @RequestParam(required = false) String picture) {
         modelService.insertNewModel(name, year, brand, color, type, picture);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity("Model created.",HttpStatus.CREATED);
     }
 
     @PutMapping("/updateModel")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity updateModel(@RequestParam Integer id, @RequestParam String name, @RequestParam Integer year, @RequestParam String brand, @RequestParam String color, @RequestParam String type, @RequestParam(required = false) String picture) {
         modelService.updateModel(id, name, year, brand, color, type, picture);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity("Update completed.",HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/getBrands")

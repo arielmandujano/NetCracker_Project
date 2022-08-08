@@ -6,10 +6,10 @@ import com.amdevelopment.NetCracker_Project.config.exceptions.DateFormatExceptio
 import com.amdevelopment.NetCracker_Project.config.exceptions.NotFoundException;
 import com.amdevelopment.NetCracker_Project.models.Car;
 import com.amdevelopment.NetCracker_Project.models.Reservation;
-import com.amdevelopment.NetCracker_Project.models.User;
+import com.amdevelopment.NetCracker_Project.security.models.User;
 import com.amdevelopment.NetCracker_Project.repositories.CarRepository;
 import com.amdevelopment.NetCracker_Project.repositories.ReservationRepository;
-import com.amdevelopment.NetCracker_Project.repositories.UserRepository;
+import com.amdevelopment.NetCracker_Project.security.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

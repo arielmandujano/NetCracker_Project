@@ -1,13 +1,12 @@
-package com.amdevelopment.NetCracker_Project.services;
+package com.amdevelopment.NetCracker_Project.security.services;
 
 import com.amdevelopment.NetCracker_Project.config.exceptions.BadRequestException;
 import com.amdevelopment.NetCracker_Project.config.exceptions.DataBaseException;
 import com.amdevelopment.NetCracker_Project.config.exceptions.NotFoundException;
-import com.amdevelopment.NetCracker_Project.models.Car;
-import com.amdevelopment.NetCracker_Project.models.Role;
-import com.amdevelopment.NetCracker_Project.models.User;
-import com.amdevelopment.NetCracker_Project.repositories.RoleRepository;
-import com.amdevelopment.NetCracker_Project.repositories.UserRepository;
+import com.amdevelopment.NetCracker_Project.security.models.Role;
+import com.amdevelopment.NetCracker_Project.security.models.User;
+import com.amdevelopment.NetCracker_Project.security.repositories.RoleRepository;
+import com.amdevelopment.NetCracker_Project.security.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,18 @@ public class UserService {
     }
 
 
+    public Optional<User> getByUserame(String username){
+        return userRepository.getUserByUsername(username);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public Iterable<User> getUsersByData(String name, String lastName, Integer id, String email) {
         return userRepository.getUsersByData(name, lastName, id, email);
     }
@@ -46,6 +57,10 @@ public class UserService {
             throw new NotFoundException("There is no car with id = " + id);
         }
         return user;
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     public void insertNewUser(String name, String lastName, Integer roleId, String address, String email, String number, String picture) {

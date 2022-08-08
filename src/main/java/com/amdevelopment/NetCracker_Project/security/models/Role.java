@@ -1,8 +1,7 @@
-package com.amdevelopment.NetCracker_Project.models;
+package com.amdevelopment.NetCracker_Project.security.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,4 +40,7 @@ public class Role implements Serializable {
     )
     private List<User> users = new LinkedList<>();
 
+    public Role(String name) {
+        this.name = name;
+    }
 }

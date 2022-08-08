@@ -3,6 +3,7 @@ package com.amdevelopment.NetCracker_Project.controllers;
 import com.amdevelopment.NetCracker_Project.models.Reservation;
 import com.amdevelopment.NetCracker_Project.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,11 +15,13 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @GetMapping("/getAllReservations")
+    @PreAuthorize("hasAuthority('Admin')")
     public Iterable<Reservation> getAllReservations() {
         return reservationService.getAllReservations();
     }
 
     @GetMapping("/getReservesByUserId")
+    @PreAuthorize("hasAuthority('Admin')")
     public Iterable<Reservation> getReservationsByUserId(@RequestParam Integer id) {
         return reservationService.getReservationsByUserId(id);
     }

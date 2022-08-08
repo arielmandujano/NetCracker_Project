@@ -1,10 +1,12 @@
-package com.amdevelopment.NetCracker_Project.repositories;
+package com.amdevelopment.NetCracker_Project.security.repositories;
 
-import com.amdevelopment.NetCracker_Project.models.User;
+import com.amdevelopment.NetCracker_Project.security.models.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User,Integer> {
@@ -14,6 +16,16 @@ public interface UserRepository extends CrudRepository<User,Integer> {
             nativeQuery = true
     )
     User getUserById(@Param("id") Integer id);
+
+    @Query(
+            value = "SELECT * FROM users WHERE username = :username",
+            nativeQuery = true
+    )
+    Optional<User> getUserByUsername(@Param("username") String username);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 
     @Query(
             value = "SELECT * FROM users " +

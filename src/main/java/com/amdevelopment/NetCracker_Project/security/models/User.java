@@ -1,8 +1,9 @@
-package com.amdevelopment.NetCracker_Project.models;
+package com.amdevelopment.NetCracker_Project.security.models;
 
+import com.amdevelopment.NetCracker_Project.models.Reservation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class User implements Serializable {
     private Integer userId;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             optional = false
     )
     @JoinColumn(
@@ -50,6 +51,7 @@ public class User implements Serializable {
     @Column(name = "address")
     private String address;
 
+    @NotNull
     @Column(name = "email")
     private String email;
 
@@ -59,6 +61,14 @@ public class User implements Serializable {
     @Lob
     @Column(name = "picture")
     private String picture;
+
+    @NotNull
+    @Column(name = "password")
+    private String password;
+
+    @NotNull
+    @Column(name = "username")
+    private String username;
 
     @JsonIgnore
     @OneToMany(

@@ -3,6 +3,7 @@ package com.amdevelopment.NetCracker_Project.controllers;
 import com.amdevelopment.NetCracker_Project.models.Car;
 import com.amdevelopment.NetCracker_Project.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -21,16 +22,19 @@ public class CarController {
     }
 
     @GetMapping("/getCarById")
+    @PreAuthorize("hasAuthority('Admin')")
     public Car getCarById(@RequestParam Integer id) {
         return carService.getCarById(id);
     }
 
     @PostMapping("/saveNewCar")
+    @PreAuthorize("hasAuthority('Admin')")
     public void insertNewCar(@RequestParam Integer id, @RequestParam String registration, @RequestParam BigDecimal pricePerDay) {
         carService.insertNewCar(id, registration, pricePerDay);
     }
 
     @PutMapping("/updateCar")
+    @PreAuthorize("hasAuthority('Admin')")
     public void updateCar(@RequestParam Integer id, @RequestParam Integer modelId, @RequestParam String registration, @RequestParam BigDecimal pricePerDay) {
         carService.updateCar(id, modelId, registration, pricePerDay);
     }

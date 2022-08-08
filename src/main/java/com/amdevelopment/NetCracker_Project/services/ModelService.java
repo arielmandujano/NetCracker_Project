@@ -35,8 +35,8 @@ public class ModelService {
         }
         return model;
     }
-    public Iterable<Model> getModelsFiltered(String brand, Integer year, String type) {
-        return modelRepository.getModelsFiltered(brand, year, type);
+    public Iterable<Model> getModelsFiltered(String brand, Integer year, String type, String model, String color) {
+        return modelRepository.getModelsFiltered(brand, year, type, model, color);
     }
 
     public void insertNewModel(String name, Integer year, String brand, String color, String type, String picture) {

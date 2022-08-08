@@ -1,11 +1,13 @@
-package com.amdevelopment.NetCracker_Project.repositories;
+package com.amdevelopment.NetCracker_Project.security.repositories;
 
-import com.amdevelopment.NetCracker_Project.models.Role;
+import com.amdevelopment.NetCracker_Project.security.models.Role;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Integer> {
@@ -23,6 +25,14 @@ public interface RoleRepository extends CrudRepository<Role, Integer> {
             nativeQuery = true
     )
     Role getRoleById(@Param("id") Integer id);
+
+    @Query(
+            value = "SELECT * " +
+                    "FROM roles " +
+                    "WHERE name = :name",
+            nativeQuery = true
+    )
+    Optional<Role> findRoleByName(String name);
 
     @Modifying
     @Query(

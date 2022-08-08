@@ -27,10 +27,12 @@ public interface ModelRepository extends CrudRepository<Model, Integer> {
                     "WHERE " +
                     "(:brand IS NULL OR models.brand = :brand) " +
                     "AND (:year IS NULL OR models.model_year = :year) " +
-                    "AND (:type IS NULL OR models.car_type = :type)",
+                    "AND (:type IS NULL OR models.car_type = :type) " +
+                    "AND (:model IS NULL OR models.model_name = :model) " +
+                    "AND (:color IS NULL OR models.color = :color) ",
             nativeQuery = true
     )
-    Iterable<Model> getModelsFiltered(@Param("brand") String brand, @Param("year") Integer year, @Param("type") String type);
+    Iterable<Model> getModelsFiltered(@Param("brand") String brand, @Param("year") Integer year, @Param("type") String type, @Param("model") String model, @Param("color") String color);
 
     @Modifying
     @Query(

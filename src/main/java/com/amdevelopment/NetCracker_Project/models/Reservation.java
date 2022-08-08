@@ -1,5 +1,6 @@
 package com.amdevelopment.NetCracker_Project.models;
 
+import com.amdevelopment.NetCracker_Project.security.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
