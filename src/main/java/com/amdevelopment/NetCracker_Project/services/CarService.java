@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+
 @Service
 @Transactional
 public class CarService {
@@ -102,10 +103,10 @@ public class CarService {
         return carRepository.getOccupiedCars(start, end);
     }
 
-    public Iterable<Car> getAvialableCars(String startDate, String endDate) {
+    public Iterable<Car> getAvailableCars(String startDate, String endDate, String model, String brand, Integer year) {
         Date start = Date.valueOf(startDate);
         Date end = Date.valueOf(endDate);
-        return carRepository.getAvialableCars(start,end);
+        return carRepository.getAvailableCars(start,end, model, brand, year);
     }
 
 }

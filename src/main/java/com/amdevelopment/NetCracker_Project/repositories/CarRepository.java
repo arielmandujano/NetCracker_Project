@@ -70,15 +70,19 @@ public interface CarRepository extends CrudRepository<Car, Integer> {
 
     @Query(
             value = "SELECT * FROM cars AS c " +
-                    "WHERE c.car_id NOT IN" +
+                    "INNER JOIN models as m ON c.model_id = m.model_id " +
+                    "WHERE " +
+                    "(:model IS NULL OR m.model_name = :model) " +
+                    "AND (:brand IS NULL OR m.brand = :brand) " +
+                    "AND (:year IS NULL OR m.model_year = :year)" +
+                    "AND c.car_id NOT IN" +
                     "(SELECT DISTINCT c.car_id FROM cars AS c " +
                     "INNER JOIN reservations AS r ON c.car_id = r.car_id " +
                     "WHERE " +
-                    "((r.start_date <= :startDate AND r.end_date >= :startDate) " +
-                    "OR (r.end_date >= :endDate AND r.start_date <= :endDate) " +
-                    "OR (r.start_date >= :startDate AND r.end_date <= :endDate)) " +
-                    "AND r.returned = 1)",
+                    "(r.start_date BETWEEN :startDate AND :endDate) " +
+                    "OR ( r.end_date BETWEEN :startDate AND :endDate) " +
+                    "AND r.returned = 0) " ,
             nativeQuery = true
     )
-    Iterable<Car> getAvialableCars(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    Iterable<Car> getAvailableCars(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("model") String model, @Param("brand") String brand, @Param("year") Integer year);
 }

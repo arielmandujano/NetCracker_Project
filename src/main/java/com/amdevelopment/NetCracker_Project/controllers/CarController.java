@@ -45,8 +45,8 @@ public class CarController {
     }
 
     @GetMapping("/getAvailableCars")
-    public Iterable<Car> getAvailableCarsDir(@RequestParam String startDate, @RequestParam String endDate) {
-        return carService.getAvialableCars(startDate, endDate);
+    public Iterable<Car> getAvailableCarsDir(@RequestParam String startDate, @RequestParam String endDate, @RequestParam(required = false) String model, @RequestParam(required = false) String brand, @RequestParam(required = false) Integer year) {
+        return carService.getAvailableCars(startDate, endDate, model, brand, year);
     }
 
 }

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -38,15 +39,19 @@ public class ReservationService {
         return reservationRepository.getAllReservations();
     }
 
-    public Reservation getReservationById(Integer id) {
+    public Reservation getReservationByIdAndUsername(Integer id, String username) {
         if(id <= 0) {
             throw new BadRequestException("Reservation id cannot be 0 or null.");
         }
-        Reservation reservation = reservationRepository.getReservationById(id);
+        Reservation reservation = reservationRepository.getReservationByIdAndUsername(id, username);
         if(reservation == null) {
             throw new NotFoundException("There is no reservation with id = " + id);
         }
         return reservation;
+    }
+
+    public Optional<Reservation> getLastReservationByUserId(Integer id) {
+        return reservationRepository.getLastReservationByUserId(id);
     }
 
     public Iterable<Reservation> getReservationsByUserId(Integer id) {

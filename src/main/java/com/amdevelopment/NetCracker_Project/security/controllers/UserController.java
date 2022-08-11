@@ -3,6 +3,8 @@ package com.amdevelopment.NetCracker_Project.security.controllers;
 import com.amdevelopment.NetCracker_Project.security.models.User;
 import com.amdevelopment.NetCracker_Project.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,11 @@ public class UserController {
     @PreAuthorize("hasAuthority('Admin')")
     public Iterable<User> getUsersByData(@RequestParam(required = false) String name,@RequestParam(required = false) String lastName,@RequestParam(required = false) Integer id,@RequestParam(required = false) String email) {
         return userService.getUsersByData(name, lastName, id, email);
+    }
+
+    @GetMapping("/getUserByUsername")
+    public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
+        return new ResponseEntity<>(userService.getByUserame(username), HttpStatus.OK);
     }
 
 }

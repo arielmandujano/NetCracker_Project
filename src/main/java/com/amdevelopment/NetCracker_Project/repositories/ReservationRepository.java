@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
@@ -26,10 +27,19 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
     Iterable<Reservation> getReservationsByUserId(@Param("id") Integer id);
 
     @Query(
-            value = "SELECT * FROM reservations WHERE reservations.reservation_id = :id",
+            value = "SELECT * FROM reservations WHERE reservations.user_id = :id ORDER BY reservation_date DESC LIMIT 1",
             nativeQuery = true
     )
-    Reservation getReservationById(@Param("id") Integer id);
+    Optional<Reservation> getLastReservationByUserId(@Param("id") Integer id);
+
+    @Query(
+            value = "SELECT * FROM reservations AS r " +
+                    "INNER JOIN users AS u ON r.user_id = u.user_id " +
+                    "WHERE r.reservation_id = :id " +
+                    "AND u.username = :username",
+            nativeQuery = true
+    )
+    Reservation getReservationByIdAndUsername(@Param("id") Integer id, @Param("username") String username);
 
     @Modifying
     @Query(
