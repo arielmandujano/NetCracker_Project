@@ -34,6 +34,11 @@ public class ReservationController {
         return reservationService.getReservationByIdAndUsername(id, username);
     }
 
+    @GetMapping("/getReservationById")
+    public Reservation getReservationById(@RequestParam Integer id) {
+        return reservationService.getReservationById(id);
+    }
+
     @PostMapping("/insertNewReserve")
     public ResponseEntity<?> insertNewReservation(@RequestParam Integer carId, @RequestParam Integer userId, @RequestParam String reservationDate, @RequestParam String start, @RequestParam String end, @RequestParam String formatOfPayment, @RequestParam Boolean returned) {
         reservationService.insertNewReservation(carId, userId, reservationDate, start, end, formatOfPayment, returned);

@@ -68,7 +68,7 @@ public class AuthController {
         user.setUsername(newUser.getUserName());
         System.out.println(user.getPassword());
         userService.saveUser(user);
-        return new ResponseEntity("User created.",HttpStatus.CREATED);
+        return new ResponseEntity("User created.",HttpStatus.OK);
     }
 
     @PostMapping("/login")

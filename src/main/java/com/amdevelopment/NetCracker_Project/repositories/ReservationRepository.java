@@ -41,6 +41,14 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
     )
     Reservation getReservationByIdAndUsername(@Param("id") Integer id, @Param("username") String username);
 
+    @Query(
+            value = "SELECT * FROM reservations AS r " +
+                    "INNER JOIN users AS u ON r.user_id = u.user_id " +
+                    "WHERE r.reservation_id = :id ",
+            nativeQuery = true
+    )
+    Reservation getReservationById(@Param("id") Integer id);
+
     @Modifying
     @Query(
             value = "INSERT INTO reservations(car_id, user_id, reservation_date, start_date, end_date, total_amount, format_of_payment, returned) " +

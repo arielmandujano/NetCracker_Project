@@ -50,6 +50,17 @@ public class ReservationService {
         return reservation;
     }
 
+    public Reservation getReservationById(Integer id) {
+        if(id <= 0) {
+            throw new BadRequestException("Reservation id cannot be 0 or null.");
+        }
+        Reservation reservation = reservationRepository.getReservationById(id);
+        if(reservation == null) {
+            throw new NotFoundException("There is no reservation with id = " + id);
+        }
+        return reservation;
+    }
+
     public Optional<Reservation> getLastReservationByUserId(Integer id) {
         return reservationRepository.getLastReservationByUserId(id);
     }
@@ -85,18 +96,14 @@ public class ReservationService {
         Date endDate;
         int difDays;
         BigDecimal totalAmount;
-        try {
-            resDate = Date.valueOf(reservationDate);
-            startDate = Date.valueOf(start);
-            endDate = Date.valueOf(end);
-            if(endDate.before(startDate)) {
-                throw new BadRequestException("Reservation end date cannot be before reservation end date.");
-            }
-            difDays = reservationRepository.daysBetweenDates(startDate,endDate);
-            totalAmount = car.getPricePerDay().multiply(new BigDecimal(difDays));
-        } catch (IllegalArgumentException e) {
-            throw new DateFormatException("Invalid date string format. ");
+        resDate = Date.valueOf(reservationDate);
+        startDate = Date.valueOf(start);
+        endDate = Date.valueOf(end);
+        if(endDate.before(startDate)) {
+            throw new BadRequestException("Reservation end date cannot be before reservation end date.");
         }
+        difDays = (int) Math.ceil((endDate.getTime()-startDate.getTime())/(1000*60*60*24.0));
+        totalAmount = car.getPricePerDay().multiply(new BigDecimal(difDays));
         if(format.equals("") || format == null) {
             throw new BadRequestException("Payment format cannot be empty or be null.");
         }
